@@ -1,0 +1,20 @@
+# Imagen base liviana
+FROM node:18-alpine
+
+# Crear carpeta de trabajo dentro del contenedor
+WORKDIR /app
+
+# Copiar los archivos de definición de dependencias
+COPY package*.json ./
+
+# Instalar las dependencias (usa cache si no cambian)
+RUN npm install
+
+# Copiar el resto del código fuente
+COPY . .
+
+# Exponer el puerto que usa NestJS en modo dev
+EXPOSE 4000
+
+# Ejecutar Nest en modo watch/hot-reload
+CMD ["npm", "run", "start:dev"]
