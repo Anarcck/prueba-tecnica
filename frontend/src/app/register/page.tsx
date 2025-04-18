@@ -13,26 +13,23 @@ import {
   Stack,
   Link
 } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/store';
-import { login } from '@/store/slices/authSlice';
-import { loginRequest } from '@/api/authApi';
+import { registerRequest } from '@/api/authApi';
 
-const LoginPage = () => {
-  const dispatch = useDispatch<AppDispatch>();
+const RegisterPage = () => {
   const router = useRouter();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
-      const token = await loginRequest(email, password);
-      dispatch(login(token));
-      localStorage.setItem('token', token);
-      router.push('/dashboard');
+      await registerRequest(email, password, name);
+      setSuccess('Registro exitoso. Redirigiendo al login...');
+      setTimeout(() => router.push('/login'), 2000);
     } catch (err: any) {
-      setError(err.message || 'Error al iniciar sesión');
+      setError(err.message || 'Error al registrar usuario');
     }
   };
 
@@ -53,7 +50,7 @@ const LoginPage = () => {
             📝 To Do App
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
-            Organiza tu día como un pro.
+            Crea tu cuenta para empezar.
           </Typography>
         </Box>
 
@@ -66,10 +63,18 @@ const LoginPage = () => {
           }}
         >
           <Typography variant="h5" fontWeight="bold" textAlign="center" mb={3}>
-            Iniciar Sesión
+            Registro
           </Typography>
 
           <Stack spacing={2}>
+            <TextField
+              label="Nombre"
+              type="text"
+              fullWidth
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+
             <TextField
               label="Correo"
               type="email"
@@ -87,20 +92,21 @@ const LoginPage = () => {
             />
 
             {error && <Alert severity="error">{error}</Alert>}
+            {success && <Alert severity="success">{success}</Alert>}
 
             <Button
               variant="contained"
               fullWidth
-              onClick={handleLogin}
+              onClick={handleRegister}
               sx={{ mt: 1 }}
             >
-              Entrar
+              Registrarse
             </Button>
 
             <Typography variant="body2" textAlign="center" mt={1}>
-              ¿No tienes cuenta?{' '}
-              <Link href="/register" underline="hover">
-                Regístrate aquí
+              ¿Ya tienes cuenta?{' '}
+              <Link href="/login" underline="hover">
+                Inicia sesión aquí
               </Link>
             </Typography>
           </Stack>
@@ -110,4 +116,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

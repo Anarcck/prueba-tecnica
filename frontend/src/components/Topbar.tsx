@@ -37,9 +37,6 @@ export const Topbar = () => {
         </Typography>
 
         <Box display="flex" alignItems="center" gap={3}>
-          <Typography fontSize="0.9rem" color="text.secondary">
-            reto@blindariesgos.com
-          </Typography>
           <Button
             onClick={handleLogout}
             variant="outlined"
