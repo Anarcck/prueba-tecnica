@@ -62,8 +62,8 @@ Puedes usar este usuario para iniciar sesión:
 📧 Email: reto@blindariesgos.com
 🔐 Contraseña: Reto123
 ```
+ Si esta es la primera vez que utiliza el sistema, por favor, no olvide registrarlo.
 
----
 
 ## 🔐 Autenticación
 
